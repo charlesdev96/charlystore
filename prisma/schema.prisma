@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId    String   @id @unique @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String
+  storeId   String?
+  store     Store?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Store {
+  storeId     String     @id @unique @default(uuid())
+  storeName   String     @unique
+  description String
+  userId      String     @unique
+  rating      String?    @default("0.00")
+  user        User       @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  Product     Product[]
+  CartItem    CartItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Product {
+  productId   String     @id @unique @default(uuid())
+  storeId     String
+  userId      String
+  description String
+  price       Decimal    @db.Decimal(15, 2)
+  images      String[]
+  title       String
+  store       Store      @relation(fields: [storeId], references: [storeId], onDelete: Cascade, onUpdate: Cascade)
+  CartItem    CartItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([storeId])
+  @@index([userId])
+}
+
+model CartItem {
+  cartId    String   @id @unique @default(uuid())
+  storeId   String
+  store     Store    @relation(fields: [storeId], references: [storeId], onDelete: Cascade, onUpdate: Cascade)
+  userId    String
+  productId String
+  product   Product  @relation(fields: [productId], references: [productId], onDelete: Cascade, onUpdate: Cascade)
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([storeId, userId])
+  @@index([userId, productId])
+  @@index([userId])
+}
