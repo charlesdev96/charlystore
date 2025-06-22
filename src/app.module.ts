@@ -11,6 +11,7 @@ import { CacheModule } from "@nestjs/cache-manager";
 import { ProductModule } from "./product/product.module";
 import { CartModule } from "./cart/cart.module";
 import { CommonModule } from "./common/common.module";
+import { UploadModule } from "./upload/upload.module";
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CommonModule } from "./common/common.module";
     StoreModule,
     ProductModule,
     CartModule,
+    UploadModule,
     CommonModule,
   ],
   controllers: [AppController],

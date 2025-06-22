@@ -4,9 +4,15 @@ import { ValidationPipe } from "@nestjs/common";
 import { AllExceptionsFilter } from "./common/error/globalErrorFilter.error";
 import helmet from "helmet";
 import * as compression from "compression";
+// import { MyLogger } from "./common/logger/logger";
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  // const app = await NestFactory.create(AppModule, {
+  //   logger: new MyLogger(),
+  // });
+  const app = await NestFactory.create(AppModule, {
+    logger: ["log", "fatal", "error", "warn", "debug", "verbose"],
+  });
   app.use(helmet());
   app.enableCors({
     origin: "*", // or specify trusted origins
