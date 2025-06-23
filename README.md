@@ -1,3 +1,38 @@
+🛒 Multi-Vendor Marketplace API (NestJS)
+I'm excited to share a backend project I just completed using NestJS!
+It’s a multi-vendor marketplace API, similar to platforms like Amazon or Jumia — built to showcase my skills in backend development.
+
+🔧 Core Features:
+🔐 JWT Authentication with role-based access (Vendor & Customer)
+
+🛍️ Product listing and store management for vendors
+
+🛒 Cart system and order creation for customers
+
+🔎 Search and filtering of products
+
+📦 Clean architecture using modules, services, DTOs, guards, and global exception filters
+
+⚠️ I intentionally left out payments and admin functionality for now, focusing instead on API design, scalability, and best practices.
+
+💡 Why I Built It
+I wanted a challenging, real-world project to apply everything I’ve learned with NestJS and show my understanding of:
+
+a. Modular architecture
+
+b. API versioning & error handling
+
+c. Entity relationships and database modeling
+
+Building scalable and maintainable services
+
+🚀 What's Next?
+I'm looking to:
+
+1. Add a basic admin panel later
+
+2. Possibly integrate with Stripe/Paystack when appropriate
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
