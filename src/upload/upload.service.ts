@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { CloudinaryService } from "./cloudinary/cloudinary.service";
 import { ResponseData } from "src/common/interfaces";
 import { DeleteFileDto } from "./dto/removeFile.dto";
@@ -10,6 +10,9 @@ export class UploadService {
   async uploadMultipleFiles(
     files: Express.Multer.File[],
   ): Promise<ResponseData> {
+    if (!files || !Array.isArray(files)) {
+      throw new BadRequestException("No files uploaded");
+    }
     const uploadedFiles = await Promise.all(
       files.map(async (file) => {
         return await this.cloudinaryService.uploadFile(file);
@@ -23,6 +26,9 @@ export class UploadService {
   }
 
   async uploadSingleFile(file: Express.Multer.File): Promise<ResponseData> {
+    if (!file) {
+      throw new BadRequestException("No file uploaded");
+    }
     const uploadedFile = await this.cloudinaryService.uploadFile(file);
     return {
       success: true,

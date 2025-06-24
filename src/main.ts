@@ -1,9 +1,10 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
-import { AllExceptionsFilter } from "./common/error/globalErrorFilter.error";
+import { AllExceptionsFilter } from "./common/filters/globalErrorFilter.filter";
 import helmet from "helmet";
 import * as compression from "compression";
+import { TimeOutInterceptor } from "./common/interceptors";
 // import { MyLogger } from "./common/logger/logger";
 
 async function bootstrap(): Promise<void> {
@@ -29,6 +30,8 @@ async function bootstrap(): Promise<void> {
   );
   //global error catch
   app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalInterceptors(new TimeOutInterceptor());
+
   await app.listen(process.env.PORT ?? 3000);
 }
 void bootstrap();

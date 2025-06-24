@@ -14,16 +14,18 @@ datasource db {
 }
 
 model User {
-  userId    String   @id @unique @default(uuid())
-  email     String   @unique
-  password  String
-  name      String
-  role      String
-  storeId   String?
-  store     Store?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Order     Order[]
+  userId           String    @id @unique @default(uuid())
+  email            String    @unique
+  password         String
+  name             String
+  role             String
+  storeId          String?
+  store            Store?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  Order            Order[]
+  SentMessages     Message[] @relation("SentMessages")
+  ReceivedMessages Message[] @relation("ReceivedMessages")
 }
 
 model Store {
@@ -89,6 +91,16 @@ model Order {
 
   @@index([userId])
   @@index([productId])
+}
+
+model Message {
+  messageId  String   @id @default(uuid())
+  senderId   String
+  receiverId String
+  content    String
+  createdAt  DateTime @default(now())
+  sender     User     @relation("SentMessages", fields: [senderId], references: [userId])
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [userId])
 }
 
 enum OrderStatus {

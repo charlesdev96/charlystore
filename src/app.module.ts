@@ -1,4 +1,9 @@
-import { Module } from "@nestjs/common";
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ConfigModule } from "@nestjs/config";
@@ -10,14 +15,15 @@ import { StoreModule } from "./store/store.module";
 import { CacheModule } from "@nestjs/cache-manager";
 import { ProductModule } from "./product/product.module";
 import { CartModule } from "./cart/cart.module";
-import { CommonModule } from "./common/common.module";
 import { UploadModule } from "./upload/upload.module";
+import { LoggerMiddleware } from "./common/middleware";
+import { ChatModule } from "./chat/chat.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ThrottlerModule.forRoot([
-      { ttl: minutes(1), blockDuration: minutes(5), limit: 5 },
+      { ttl: minutes(1), blockDuration: minutes(5), limit: 10 },
     ]),
     CacheModule.register({ isGlobal: true, ttl: minutes(30), max: 100 }),
     PrismaModule,
@@ -27,9 +33,16 @@ import { UploadModule } from "./upload/upload.module";
     ProductModule,
     CartModule,
     UploadModule,
-    CommonModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes({
+      path: "*",
+      method: RequestMethod.ALL,
+    });
+  }
+}

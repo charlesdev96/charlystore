@@ -20,7 +20,18 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (exception instanceof HttpException) {
       status = exception.getStatus();
       const res = exception.getResponse();
-      message = typeof res === "string" ? res : (res as any).message;
+
+      if (typeof res === "string") {
+        message = res;
+      } else if (typeof res === "object" && res !== null) {
+        const responseObj = res as any;
+        if (Array.isArray(responseObj.message)) {
+          // Take the first message in the array
+          message = responseObj.message[0];
+        } else {
+          message = responseObj.message || message;
+        }
+      }
     }
 
     // ✅ Only log for 500 errors

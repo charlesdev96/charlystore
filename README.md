@@ -13,6 +13,12 @@ It’s a multi-vendor marketplace API, similar to platforms like Amazon or Jumia
 
 📦 Clean architecture using modules, services, DTOs, guards, and global exception filters
 
+💬 Real-time Chat System:
+
+1. Simple WebSocket-based messaging system
+2. Vendors and Customers can chat 1:1
+3. Real-time status updates when users join or leave
+
 ⚠️ I intentionally left out payments and admin functionality for now, focusing instead on API design, scalability, and best practices.
 
 💡 Why I Built It
