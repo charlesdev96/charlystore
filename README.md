@@ -39,6 +39,29 @@ I'm looking to:
 
 2. Possibly integrate with Stripe/Paystack when appropriate
 
+Getting Started:
+
+1. Clone the Repository: Use git clone https://github.com/charlesdev96/charlystore to clone this repository.
+2. Install Dependencies: Run npm install in the project directory to install the required dependencies.
+3. Configure Database: Create a database connection using your preferred database technology (e.g., Postgres) and update the configuration details in the appropriate environment variables file.
+4. Start the Server: npm run start:dev to start the API server.
+
+NOTE: Most API endpoints in this project require authentication. This means you'll need a token to access information about the currently logged-in user or perform actions on their behalf. Endpoints like registration and login are exempted from this requirement. If you attempt to access a protected endpoint without a valid token, you'll receive an error message prompting you to log in. For easy token management in Postman, you can leverage the "Authorization" header with the "Bearer Token" scheme. Simply copy and paste your access token, which is automatically retrieved upon successful login and stored as accessToken in your code. I've implemented a code that automatically copies the token from the login when "Bearer Token" is clicked, and I've named it "accessToken". You can do this by: in login, click on "script" and paste this code:
+
+const jsonData = pm.response.json()
+
+pm.globals.set("accessToken", jsonData.token)
+
+Then create a global variable and name it "accessToken".
+
+A sample of how I called the endpoints in postman can be seen using the link below and there is an example template for each endpoint.
+
+Postman link: https://www.postman.com/charles4christ/public-workplace/collection/kyaw5ce/charly-store-copy
+
+This will provide you with insights into how the endpoints were utilized in Postman, along with templates that you can use for reference or testing purposes.
+
+Thanks.
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
